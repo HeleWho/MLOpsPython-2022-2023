@@ -214,7 +214,13 @@ docker build -t mlopspython/first-image .
 
 docker run -it mlopspython/first-image bash
 ```
+FROM python:3.11.2-bullseye
 
+RUN mkdir /opt/app-root
+
+WORKDIR /opt/app-root
+
+RUN echo "import platform\nprint(
 As you can see, this time, the python image has not been downloaded again. It is because the image is record in the local Docker cache!
 
 ![not download again](documentation/production/3%20-%20containers/playing%20with%20docker/not%20downloading%20image%20again.png)
@@ -238,13 +244,7 @@ Now we want to tell to our image to execute the script by itself and print the r
 To do so, we will use the instruction ENTRYPOINT:
 
 ```dockerfile
-FROM python:3.11.2-bullseye
-
-RUN mkdir /opt/app-root
-
-WORKDIR /opt/app-root
-
-RUN echo "import platform\nprint(\"Coucou ! On tourne sur \" + platform.platform())" > myscript.py
+\"Coucou ! On tourne sur \" + platform.platform())" > myscript.py
 
 ENTRYPOINT ["python", "myscript.py"]
 ```
@@ -342,7 +342,7 @@ Note the option -d in our docker run command. It is for "detached". It will run 
 This is a complete example : 
 
 ```bash
-docker run -d -p 8080:8080 -e OAUTH2_ISSUER="https://dev-ujjk4qhv7rn48y6w.eu.auth0.com/" -e OAUTH2_AUDIENCE="https://gthomas-cats-dogs.com" -e OAUTH2_JWKS_URI=".well-known/jwks.json" mlops_python_2022_2023:1.0.0
+docker run -d -p 8081:8081 -e OAUTH2_ISSUER="https://dev-ujjk4qhv7rn48y6w.eu.auth0.com/" -e OAUTH2_AUDIENCE="https://gthomas-cats-dogs.com" -e OAUTH2_JWKS_URI=".well-known/jwks.json" mlops_python_2022_2023:1.0.0
 ```
 
 Now, let's try our Service from Postman!
